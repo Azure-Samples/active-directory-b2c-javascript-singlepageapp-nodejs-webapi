@@ -20,8 +20,6 @@
         <div class="row">
             <ul class="list-unstyled list-inline">
                 <li><button class="btn btn-info sign-up-sign-in">Sign-In or Sign-Up Policy Login</button></li>
-                <li><button class="btn btn-primary sign-up-sign-in-api-call-get">Get API call by Sign-Up or Sign-In Policy</button></li>
-                <li><button class="btn btn-primary sign-up-sign-in-api-call-post">Post API call by Sign-Up or Sign-In Policy</button></li>
                 <li><button class="btn btn-info sign-up-sign-in-silent-renew">Silent Renew By Sign-Up or Sign-In Policy</button></li>
                 <li><button class="btn btn-info sign-up-sign-in-logout">Sign-Up or Sign-In Policy Logout</button></li>
             </ul>
@@ -29,8 +27,6 @@
         <div class="row">
             <ul class="list-unstyled list-inline">
                 <li><button class="btn btn-info edit-profile">Edit Profile Policy Login</button></li>
-                <li><button class="btn btn-primary edit-profile-api-call-get">Get API call by Edit Profile Policy</button></li>
-                <li><button class="btn btn-primary edit-profile-api-call-post">Post API call by Edit Profile Policy</button></li>                
                 <li><button class="btn btn-info edit-profile-logout">Edit Profile Policy Logout</button></li>
             </ul>
         </div>
@@ -57,8 +53,10 @@
         var redirectURI = '../redirect.html';
 
         //API url for task service
-        var apiBaseURL = 'http://localhost:8124';
-        var apiTasksURL = apiBaseURL + '/api/tasks';;
+        var apiBaseURL = 'http://localhost:3000';
+        var apiTasksURL = apiBaseURL + '/api/tasks';
+        //tasks are created un
+        var owner = 'hellojs';
 
         //update the policy names with the exact name from the AD B2C policies blade
         var policies = {
@@ -140,14 +138,6 @@
                 policyLogin(helloNetwork.adB2CSignInSignUp, loginDisplayType.Page);
             });
 
-            $('.sign-up-sign-in-api-call-get').on('click', function () {
-                getTasks(helloNetwork.adB2CSignInSignUp);
-            });
-
-            $('.sign-up-sign-in-api-call-post').on('click', function () {
-                postTask(helloNetwork.adB2CSignInSignUp);
-            });
-
             $('.sign-up-sign-in-silent-renew').on('click', function () {
                 policyLogin(helloNetwork.adB2CSignInSignUp, loginDisplayType.None);
             });
@@ -163,15 +153,6 @@
             $('.edit-profile').on('click', function () {
                 policyLogin(helloNetwork.adB2CEditProfile, loginDisplayType.Page);
             });
-
-            $('.edit-profile-api-call-get').on('click', function () {
-                getTasks(helloNetwork.adB2CEditProfile);
-            });
-
-            $('.edit-profile-api-call-post').on('click', function () {
-                postTask(helloNetwork.adB2CEditProfile);
-            });
-
     
             $('.edit-profile-logout').on('click', function () {
                 policyLogout(helloNetwork.adB2CEditProfile, policies.editProfilePolicy);
@@ -225,7 +206,7 @@
             var authResponse = hello(network).getAuthResponse();
             if (authResponse != null) {
                 hello(network).api({
-                    path: apiTasksURL,
+                    path: apiTasksURL+"/"+owner,
                     method: 'get'
                 }).then(function (response) {
                     if (response.Message) {
@@ -249,7 +230,7 @@
             if (authResponse != null) {
                 hello(network).api({
                     path: apiTasksURL,
-                    method: 'post', data: { text: n }
+                    method: 'post', data: { Text: n , owner : owner}
                 }).then(function (response) {
                     if (response.Message) {
                         bootbox.alert(response.Message);

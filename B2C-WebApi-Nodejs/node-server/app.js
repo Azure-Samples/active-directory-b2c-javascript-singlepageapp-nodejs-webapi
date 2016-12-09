@@ -38,10 +38,11 @@ var OIDCBearerStrategy = require('passport-azure-ad').BearerStrategy;
 var options = {
     // The URL of the metadata document for your app. We will put the keys for token validation from the URL found in the jwks_uri tag of the in the metadata.
     identityMetadata: config.creds.identityMetadata,
-    clientID: config.creds.clientID,
+    clientID: config.creds.applicationID,
     tenantName: config.creds.tenantName,
     policyName: config.creds.policyName,
     validateIssuer: config.creds.validateIssuer,
+    issuer: config.creds.issuer,
     audience: config.creds.audience,
     passReqToCallback: config.creds.passReqToCallback
 
@@ -58,8 +59,7 @@ var log = bunyan.createLogger({
 
 // MongoDB setup
 // Setup some configuration
-//var serverPort = process.env.PORT || 3000;
-var serverPort = 8124;
+var serverPort = process.env.PORT || 3000;
 var serverURI = (process.env.PORT) ? config.creds.mongoose_auth_mongohq : config.creds.mongoose_auth_local;
 
 // Connect to MongoDB
@@ -107,7 +107,7 @@ function createTask(req, res, next) {
         return;
     }
 
-    _task.owner = owner;
+    _task.owner = (!req.params.Text) ? owner : req.params.owner;
     _task.Text = req.params.Text;
     _task.date = new Date();
 
@@ -160,12 +160,12 @@ function removeAll(req, res, next) {
 
 function getTask(req, res, next) {
 
-    log.info('getTask was called for: ', owner);
+    log.info('getTask was called for: ', req.params.owner);
     Task.find({
-        owner: owner
+        owner: req.params.owner
     }, function(err, data) {
         if (err) {
-            req.log.warn(err, 'get: unable to read %s', owner);
+            req.log.warn(err, 'get: unable to read %s', req.params.owner);
             next(err);
             return;
         }
@@ -185,10 +185,10 @@ function listTasks(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-    log.info("listTasks was called for: ", owner);
+    log.info("listTasks was called for: ", req.params.owner);
 
     Task.find({
-        owner: owner
+        owner: req.params.owner
     }).limit(20).sort('date').exec(function(err, data) {
 
         if (err)
