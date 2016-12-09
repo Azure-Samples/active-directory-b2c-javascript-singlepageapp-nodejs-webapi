@@ -2,7 +2,7 @@
 
 This sample shows how to build a web application using Hello.js that performs identity management with Azure AD B2C . It assumes you have some familiarity with Azure AD B2C. If you'd like to learn all that B2C has to offer, start with our documentation at aka.ms/aadb2c.
 
-The app is a simple web application that performs sign-in, sign-up, and sign-out functions with sign-in and signIn-signUp policies and also edit profile using EditProfile Policy. Once the user signed in sample GET/POST requests can be made to Node.js task service secured by Azure AD B2C. It is intended to help get you started with Azure AD B2C in a simple webapplication built on hello.js, giving you the necessary tools to execute Azure AD B2C policies & securely identify users in your application.  
+The app is a simple web application that performs sign-in, sign-up, and sign-out functions with sign-in and signIn-signUp policies and also edit profile using EditProfile Policy. Once the user signed in sample GET/POST requests can be made to **Node.js** task service secured by Azure AD B2C. It is intended to help get you started with Azure AD B2C in a simple webapplication built on hello.js, giving you the necessary tools to execute Azure AD B2C policies & securely identify users in your application.  
 
 ##### Please note that this functionality is still in "preview"
 
@@ -40,7 +40,7 @@ Getting started is simple! To run this sample you will need:
 - Visual Studio 2015
 - An Internet connection
 - An Azure subscription (a free trial is sufficient)
-- Node.JS and MongoDB (instructions in Step 6 and 7)
+- Node.js and MongoDB (instructions in Step 6 and 7)
 
 ### Step 1:  Clone or download this repository
 
@@ -99,13 +99,11 @@ open the index.html file and replace the applicationID with the SPA App applicat
 open the aadb2c.js and replace the tenant name and policy names
 
 ```javascript
-
     var tenantName = 'tenantname.onmicrosoft.com';
     var signInPolicyName = 'b2c_1_sign_in';
     var signInSignUpPolicyName = 'B2C_1_b2c_1_sign_in_sign_up';
     var editProfilePolicyName = 'B2C_1_edit_profile';
     var redirect_uri = 'http://localhost:65328/';
-
 ```
 
 ### Step 6: Download node.js for your platform
@@ -133,12 +131,13 @@ From your shell or command line:
 
 ### Step 9: Configure your server using config.js
 
-You will need to update config.js in the node-server folder to use your values for audienceURI and for the metadata endpoint.
+You will need to update config.js in the node-server folder. make sure you copy the SPA app applicationID as the audience (calling application) and REST API aplicationId as applicationID.
+update the tenant names and policyName with appropriate values.
 
 ```javascript
  exports.creds = {
      mongoose_auth_local: 'mongodb://localhost/tasklist', // Your mongo auth uri goes here
-     applicationID: '2ad0ce46-7ee7-4705-a134-d86106a7f569', // your applicationID for this Web API created in the portal
+     applicationID: '2ad0ce46-7ee7-4705-a134-d86106a7f569', // your applicationID for this REST API created in the portal
      audience: '2ea10cce-58f2-4b26-8b5a-65d75553aac1', //the applicationID of the SPA WebApp created in the portal
      identityMetadata: 'https://login.microsoftonline.com/tenantazureb2c.onmicrosoft.com/v2.0/.well-known/openid-configuration', //replace the tenant name
      tenantName:'tenantazureb2c.onmicrosoft.com', //Azure AD B2C tenant name
@@ -164,6 +163,6 @@ You will have a server successfully running on `http://localhost:3000`. Your RES
 
 ### Step 11:  Run the sample
 
-open the B2C-v2jsapp.sln in visual studio 2015. 
-
-Clean and rebuild the solution, and run it.  You can now sign up / sign in /edit profile to your application using the accounts you configured in your respective policies. Once the user is signed in with a policy POST a task to the Node.js Task service and GET the tasks already created.
+- open the **B2C-v2jsapp.sln** in visual studio 2015. 
+- Clean and rebuild the solution, and run it.  You can now sign up / sign in /edit profile to your application using the accounts you configured in your respective policies. 
+- if a user is signed in using **SignIn policy**, user can POST a task to the Node.js Task service (which is already running) and GET the tasks already created.
