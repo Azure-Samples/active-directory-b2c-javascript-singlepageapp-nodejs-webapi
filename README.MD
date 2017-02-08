@@ -151,6 +151,16 @@ update the tenant names and policyName with appropriate values.
 
 ### Step 10: Run the application
 
+start monngodb daemon process by navigating to the mongo bin directory (typically C:\MongoDB\Bin)
+* `$ mongod	`
+
+it takes C:\data\db folder as the data directory, it can be forced to change 
+
+* `$ mongod	--dbpath d:\test\mongodb\data`
+
+check the daemon process is running without errors
+
+naviagte to the node-server direcotry
 
 * `$ cd node-server	`
 * `$ node app.js`
