@@ -151,7 +151,7 @@ update the tenant names and policyName with appropriate values.
 
 ### Step 10: Run the application
 
-start monngodb daemon process by navigating to the mongo bin directory (typically C:\MongoDB\Bin)
+start mongodb daemon process by navigating to the mongo bin directory (typically C:\MongoDB\Bin)
 * `$ mongod	`
 
 it takes C:\data\db folder as the data directory, it can be forced to change 
