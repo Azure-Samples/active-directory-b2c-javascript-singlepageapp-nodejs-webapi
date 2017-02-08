@@ -24,6 +24,12 @@ var helloJsEditProfilePolicy = "adB2CEditProfile";
             },
             refresh: true,
             scope_delim: ' ',
+            login: function (p) {
+                //for silent renew add prompt=none
+                if (p.options.display === 'none') {
+                    p.qs.prompt = "none";
+                }
+            },
             logout: function (p) {
                 //get id_token from auth response
                 var id_token = hello(helloJsSignPolicy).getAuthResponse().id_token;
@@ -72,7 +78,13 @@ var helloJsEditProfilePolicy = "adB2CEditProfile";
                 grant: "https://login.microsoftonline.com/tfp/" + tenantName + "/" + signInSignUpPolicyName + "/oauth2/v2.0/token"
             },
             refresh: true,
-             scope_delim: ' ',
+            scope_delim: ' ',
+            login: function (p) {
+                //for silent renew add prompt=none
+                if (p.options.display === 'none') {
+                    p.qs.prompt = "none";
+                }
+            },
             logout: function () {
                 //get id_token from auth response
                 var id_token = hello(helloJsSignInSignUpPolicy).getAuthResponse().id_token;
@@ -121,6 +133,12 @@ var helloJsEditProfilePolicy = "adB2CEditProfile";
             },
             refresh: true,
             scope_delim: ' ',
+            login: function (p) {
+                //for silent renew add prompt=none
+                if (p.options.display === 'none') {
+                    p.qs.prompt = "none";
+                }
+            },
             logout: function (p) {
                 //get id_token from auth response
                 var id_token = hello(helloJsEditProfilePolicy).getAuthResponse().id_token;

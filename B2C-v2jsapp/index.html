@@ -171,23 +171,16 @@
                 displayType = 'page';
             }
 
-            var b2cSession = hello(network).getAuthResponse();
-
-            //in case of silent renew, check if the session is still active otherwise ask the user to login again
-            if (!online(b2cSession) && displayType === loginDisplayType.None) {
-                bootbox.alert('Session expired... please login again', function () {
-                    policyLogin(network, loginDisplayType.Page);
-                });
-                return;
-            }
-
-            hello(network).login({ display: displayType }, log).then(function (auth) {
+            hello(network).login({ display: displayType }).then(function (auth) {
             }, function (e) {
-                if ('Iframe was blocked' in e.error.message) {
+
+                if (e.error.message.indexOf('Iframe was blocked') < 0) {
+                    bootbox.alert("<p style='word-wrap: break-word'>Signin error: Please login again " + e.error.message + "</p>");
+                } else {
                     policyLogin(network, loginDisplayType.Page);
                     return;
                 }
-                bootbox.alert('Signin error: ' + e.error.message);
+
             });
         }
 
