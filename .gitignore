@@ -1,7 +1,0 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
-
-/.vs/config
-/B2C-v2jsapp/bin
-/B2C-v2jsapp/obj/Debug
